@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Producto</title>
+</head>
+<body>
+<form action="/producto/guardar" method="post" th:object="${producto}" enctype="multipart/form-data">
+    <input type="hidden" id="id" th:field="*{id}">
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" th:field="*{nombre}">
+
+    <label for="descripcion">Descripción</label>
+    <input type="text" id="descripcion" th:field="*{descripcion}">
+
+    <label for="precio">Precio</label>
+    <input type="number" id="precio" th:field="*{precio}">
+
+    <label for="cantidad">Stock</label>
+    <input type="number" id="cantidad" th:field="*{cantidad}">
+
+    <label for="imagen">Sube una imagen:</label>
+    <input type="file" name="file" id="imagen"> <!-- AQUÍ VA EL CAMBIO -->
+
+    <input type="hidden" th:field="*{total}">
+
+    <button type="submit">Guardar Producto</button>
+</form>
+
+</body>
+</html>

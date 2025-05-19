@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario - Usuario</title>
+</head>
+<body>
+
+    <form method="post" th:action="@{/usuarios}" th:object="${usuario}">
+      <label>ID</label>
+      <input type="number" th:field="*{id}">
+      <label>Nombre</label>
+      <input type="text" th:field="*{nombre}">
+      <label>Apellido</label>
+      <input type="text" th:field="*{apellido}">
+      <button type="submit">Guardar Usuario</button>
+    </form>
+
+</body>
+</html>
