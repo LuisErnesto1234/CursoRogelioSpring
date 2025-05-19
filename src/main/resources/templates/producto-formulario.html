@@ -20,13 +20,38 @@
     <label for="cantidad">Stock</label>
     <input type="number" id="cantidad" th:field="*{cantidad}">
 
-    <label for="imagen">Sube una imagen:</label>
-    <input type="file" name="file" id="imagen"> <!-- AQUÍ VA EL CAMBIO -->
+    <label for="imagenInput">Sube una imagen:</label>
+    <input type="file" name="file" id="imagenInput"> <!-- AQUÍ VA EL CAMBIO -->
+
+    <img th:src="@{${producto.imagen}}" alt="Imagen actual" style="max-width: 200px;" />
+
+    <img id="preview" src="#" alt="Vista previa" style="display:none; max-width: 200px; margin-top: 10px;">
 
     <input type="hidden" th:field="*{total}">
 
     <button type="submit">Guardar Producto</button>
 </form>
+
+<script>
+    document.getElementById("imagenInput").addEventListener("change", function(event) {
+        const archivo = event.target.files[0];
+        const preview = document.getElementById("preview");
+
+        if (archivo) {
+            const lector = new FileReader();
+
+            lector.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+
+            lector.readAsDataURL(archivo); // Convierte la imagen a base64 para mostrarla
+        } else {
+            preview.src = "#";
+            preview.style.display = "none";
+        }
+    });
+</script>
 
 </body>
 </html>
