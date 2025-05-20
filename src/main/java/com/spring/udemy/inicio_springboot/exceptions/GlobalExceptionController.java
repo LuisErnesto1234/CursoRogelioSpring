@@ -4,11 +4,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionController {
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public String noEcontrado(){
-        return "404";
-    }
+//    @ExceptionHandler(NoHandlerFoundException.class)
+//    public String noEcontrado(){
+//        return "404";
+//    }
 }

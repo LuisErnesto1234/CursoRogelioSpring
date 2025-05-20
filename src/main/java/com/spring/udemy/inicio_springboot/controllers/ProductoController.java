@@ -2,8 +2,10 @@ package com.spring.udemy.inicio_springboot.controllers;
 
 import com.spring.udemy.inicio_springboot.model.Producto;
 import com.spring.udemy.inicio_springboot.service.ProductoService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,13 +31,17 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardarProducto(@ModelAttribute Producto producto, @RequestParam(name = "file") MultipartFile file) throws IOException {
+    public String guardarProducto(@Valid @ModelAttribute Producto producto, BindingResult result, @RequestParam(name = "file") MultipartFile file, Model model) throws IOException {
         
-        if (producto.getId() != null){
+        if (result.hasErrors()){
+            return "producto-formulario";
+        }
+
+        if (file.isEmpty() && producto.getId() != null){
             Producto productoEncontrado = productoService.buscarProductoPorId(producto.getId()).orElse(null);
             //Cuando el usuario edita, cualquier campo pero no toca la imagen
             //mantiene la imagen actual
-            if (productoEncontrado != null && productoEncontrado.getImagen() != null && file.isEmpty()){
+            if (productoEncontrado != null){
                 producto.setImagen(productoEncontrado.getImagen());
             }
         }
@@ -71,6 +77,7 @@ public class ProductoController {
         if (file.isEmpty() && producto.getImagen() == null){
             producto.setImagen("/uploads/producto/default.jpg");
         }
+        producto.setTotal(producto.getCantidad() * producto.getPrecio());
         productoService.guardarProducto(producto);
         return "redirect:/producto";
     }
@@ -79,6 +86,45 @@ public class ProductoController {
     public String nuevoProducto(Model model){
         model.addAttribute("producto", new Producto());
         return "producto-formulario";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarProducto(@PathVariable Integer id, Model model){
+        productoService.buscarProductoPorId(id).ifPresent(producto -> model.addAttribute("producto", producto));
+        return "producto-formulario";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarProducto(@PathVariable Integer id){
+
+        if (id != null){
+            Producto productoEncontrado = productoService.buscarProductoPorId(id).orElse(null);
+            if (productoEncontrado != null && productoEncontrado.getImagen() != null){
+                if (productoEncontrado.getImagen().equals("/uploads/producto/default.jpg")){
+                    productoService.eliminarProducto(id);
+                }
+                else {
+                    Path rutaImagen = Paths.get(System.getProperty("user.dir"), productoEncontrado.getImagen());
+                    File file = rutaImagen.toFile();
+
+                    if (file.exists()) {
+                        boolean eliminar = file.delete();
+                        if (!eliminar) {
+                            throw new RuntimeException("No se pudo eliminar la imagen!!");
+                        }
+                    }
+                }
+            }
+            productoService.eliminarProducto(id);
+        }
+
+        return "redirect:/producto";
+    }
+
+    @GetMapping("/ver/{id}")
+    public String verProducto(@PathVariable Integer id, Model model){
+        productoService.buscarProductoPorId(id).ifPresent(producto -> model.addAttribute("producto", producto));
+        return "ver-producto";
     }
 
 }

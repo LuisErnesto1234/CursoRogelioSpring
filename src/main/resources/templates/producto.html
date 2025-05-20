@@ -18,6 +18,7 @@
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Total</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,11 @@
                 <td th:text="${producto.precio}"></td>
                 <td th:text="${producto.cantidad}"></td>
                 <td th:text="${producto.total}"></td>
+                <td>
+                    <a th:href="@{/producto/editar/{id}(id=${producto.id})}">Editar</a>
+                    <a th:href="@{/producto/eliminar/{id}(id=${producto.id})}">Eliminar</a>
+                    <a th:href="@{/producto/ver/{id}(id=${producto.id})}">Ver</a>
+                </td>
             </tr>
         </tbody>
     </table>
