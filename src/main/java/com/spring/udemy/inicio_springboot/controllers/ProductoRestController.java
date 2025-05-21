@@ -17,10 +17,10 @@ public class ProductoRestController {
         this.productoService = productoService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Producto>> listarProductos(){
-        return ResponseEntity.ok(productoService.listarProductos());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Producto>> listarProductos(){
+//        return ResponseEntity.ok(productoService.listarProductos());
+//    }
 
     @PostMapping
     public ResponseEntity<Producto> guardarProducto(@RequestBody Producto producto){
