@@ -26,4 +26,8 @@ public class Producto {
     @Min(value = 1, message = "La cantidad debe ser mayor a 1")
     private Integer cantidad;
     private Double total;
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
 }

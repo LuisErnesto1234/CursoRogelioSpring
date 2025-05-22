@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario categoria</title>
+</head>
+<body>
+    <h1>Formulario categoria</h1>
+
+    <form action="/categoria" method="post" th:object="${categoria}" >
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" th:field="*{nombre}">
+        <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: darkred"></div>
+        <label for="descripcion">Descripcion</label>
+        <input type="text" id="descripcion" th:field="*{descripcion}">
+        <div th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" style="color: darkred"></div>
+        <input type="submit" value="Guardar" th:text="${categoria.id != null ? 'Actualizar' : 'Guardar'}">
+    </form>
+</body>
+</html>
