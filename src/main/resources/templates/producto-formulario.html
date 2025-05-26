@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Producto</title>
@@ -15,6 +15,15 @@
     <label for="nombre">Nombre</label>
     <input type="text" id="nombre" th:field="*{nombre}">
     <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: darkred"></div>
+
+    <label for="categoria">Categoria</label>
+    <select id="categoria" th:field="*{categoria.id}">
+        <option th:each="categoria : ${categorias}"
+                th:value="${categoria.id}"
+                th:text="${categoria.nombre}"
+                th:selected="${categoria.id == producto.categoria.id}">
+        </option>
+    </select>
 
     <label for="descripcion">Descripción</label>
     <input type="text" id="descripcion" th:field="*{descripcion}">

@@ -110,4 +110,8 @@ public class ProductoService{
     public List<Producto> productoListPorNombre(String nombre){
         return productoRepository.findAllByNombreContainsIgnoreCase(nombre);
     }
+
+    public List<Producto> buscarPorCategoriaProducto(Integer id){
+        return productoRepository.findAllByCategoria_Id(id);
+    }
 }

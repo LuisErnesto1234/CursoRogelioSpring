@@ -1,6 +1,7 @@
 package com.spring.udemy.inicio_springboot.controllers;
 
 import com.spring.udemy.inicio_springboot.model.Producto;
+import com.spring.udemy.inicio_springboot.service.CategoriaService;
 import com.spring.udemy.inicio_springboot.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -21,9 +22,11 @@ import java.io.IOException;
 public class ProductoController {
 
     private final ProductoService productoService;
+    private final CategoriaService categoriaService;
 
-    public ProductoController(ProductoService productoService) {
+    public ProductoController(ProductoService productoService, CategoriaService categoriaService) {
         this.productoService = productoService;
+        this.categoriaService = categoriaService;
     }
 
     @GetMapping
@@ -55,12 +58,14 @@ public class ProductoController {
     @GetMapping("/nuevo")
     public String nuevoProducto(Model model){
         model.addAttribute("producto", new Producto());
+        model.addAttribute("categorias", categoriaService.listarCategorias());
         return "producto-formulario";
     }
 
     @GetMapping("/editar/{id}")
     public String editarProducto(@PathVariable Integer id, Model model){
         productoService.buscarProductoPorId(id).ifPresent(producto -> model.addAttribute("producto", producto));
+        model.addAttribute("categorias", categoriaService.listarCategorias());
         return "producto-formulario";
     }
 
@@ -82,4 +87,10 @@ public class ProductoController {
         return "index";
     }
 
+    @GetMapping("/buscar-categoria/{id}")
+    public String buscarPorCategoria(@PathVariable Integer id, Model model){
+        model.addAttribute("categoria", categoriaService.buscarCategoriaPorId(id).orElseThrow());
+        model.addAttribute("lista", productoService.buscarPorCategoriaProducto(id));
+        return "buscar-categoria/buscar-categoria";
+    }
 }
