@@ -7,7 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping({"/categoria", "/c"})
@@ -26,11 +29,13 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public String guardarCategoria(@Valid @ModelAttribute Categoria categoria, BindingResult result){
+    public String guardarCategoria(@Valid @ModelAttribute Categoria categoria, BindingResult result, @RequestParam(name = "file") MultipartFile file) throws IOException {
 
         if (result.hasErrors()){
             return "categoria/formulario";
         }
+
+        categoriaService.tratamientoImagen(categoria, file);
 
         categoriaService.guardarCategoria(categoria);
         return "redirect:/categoria";
@@ -50,7 +55,7 @@ public class CategoriaController {
 
     @GetMapping("/eliminar/{id}")
     public String eliminarCategoria(@PathVariable Integer id, RedirectAttributes attr){
-        categoriaService.eliminarCategoria(id);
+        categoriaService.eliminarImagen(id);
         attr.addFlashAttribute("bien", "La categoria se elimino con exito!");
         return "redirect:/categoria";
     }

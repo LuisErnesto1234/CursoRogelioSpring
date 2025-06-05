@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class ProductoService{
 
     private final ProductoRepository productoRepository;
+    public final List<Producto> carritoList = new ArrayList<>();
 
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
@@ -113,5 +115,9 @@ public class ProductoService{
 
     public List<Producto> buscarPorCategoriaProducto(Integer id){
         return productoRepository.findAllByCategoria_Id(id);
+    }
+
+    public void carrito(Producto producto){
+        carritoList.add(producto);
     }
 }

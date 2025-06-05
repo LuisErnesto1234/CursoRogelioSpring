@@ -10,17 +10,19 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class UsuarioService implements UsuarioRepository{
+public class UsuarioService{
 
-    List<Usuario> lista = new ArrayList<>();
+    private final UsuarioRepository usuarioRepository;
 
-    @Override
-    public List<Usuario> findAll(){
-        return lista;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
-    @Override
-    public void saveUsuario(Usuario usuario) {
-        lista.add(usuario);
+    public List<Usuario> findAll(){
+        return usuarioRepository.findAll();
+    }
+
+    public Usuario saveUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 }

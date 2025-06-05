@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+<h1>Tu Carrito</h1>
+
+<div th:if="${cartItems.isEmpty()}">
+    <p>Tu carrito está vacío</p>
+</div>
+
+<table th:unless="${cartItems.isEmpty()}">
+    <thead>
+    <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cartItems}">
+        <td th:text="${item.producto.nombre}">Nombre</td>
+        <td th:text="${#numbers.formatDecimal(item.producto.precio, 1, 2)}">0.00</td>
+        <td>
+            <form th:action="@{/carrito/update}" method="post">
+                <input type="hidden" name="productId" th:value="${item.producto.id}">
+                <input type="number" name="quantity" th:value="${item.cantidad}" min="1">
+                <button type="submit">Actualizar</button>
+            </form>
+        </td>
+        <td th:text="${#numbers.formatDecimal(item.producto.precio * item.cantidad, 1, 2)}">0.00</td>
+        <td>
+            <form th:action="@{/carrito/remove}" method="post">
+                <input type="hidden" name="productId" th:value="${item.producto.id}">
+                <button type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3">Total:</td>
+        <td th:text="${#numbers.formatDecimal(total, 1, 2)}">0.00</td>
+        <td></td>
+    </tr>
+    </tfoot>
+</table>
+
+<div th:unless="${cartItems.isEmpty()}">
+    <form th:action="@{/carrito/clear}" method="post">
+        <button type="submit">Vaciar Carrito</button>
+    </form>
+
+    <a th:href="@{/checkout}">Proceder al Pago</a>
+    <button onclick="history.back()">Volver atras.</button>
+</div>
+
+<a th:href="@{/}">Seguir Comprando</a>
+</body>
+</html>

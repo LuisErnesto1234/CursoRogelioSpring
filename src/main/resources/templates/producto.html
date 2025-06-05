@@ -40,6 +40,7 @@
                     <a th:href="@{/producto/editar/{id}(id=${producto.id})}">Editar</a>
                     <a th:href="@{/producto/eliminar/{id}(id=${producto.id})}" onclick="return confirm('¿Seguro que quieres eliminar este producto?')">Eliminar</a>
                     <a th:href="@{/producto/ver/{id}(id=${producto.id})}">Ver</a>
+                    <a th:href="@{/carrito/producto/{id}(id=${producto.id})}">Agregar Carro</a>
                 </td>
             </tr>
         </tbody>

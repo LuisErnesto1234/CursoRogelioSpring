@@ -17,7 +17,7 @@
                 <span class="text-gray-500 mt-3" th:text="${producto.precio}"></span>
                 <hr class="my-3">
                 <div class="mt-2">
-                    <label class="text-gray-700 text-sm" for="count">Count:</label>
+                    <label class="text-gray-700 text-sm">Count:</label>
                     <div class="flex items-center mt-1">
                         <button class="text-gray-500 focus:outline-none focus:text-gray-600">
                             <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -29,20 +29,24 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <label class="text-gray-700 text-sm" for="count">Descripcion</label>
+                    <label class="text-gray-700 text-sm">Descripcion</label>
                     <div class="flex items-center mt-1">
                         <h4 th:text="${producto.descripcion}"></h4>
                     </div>
                 </div>
                 <div th:if="${producto.categoria != null}" class="mt-3">
-                    <label class="text-gray-700 text-sm" for="categoria">Categoria</label>
+                    <label class="text-gray-700 text-sm">Categoria</label>
                     <div class="flex items-center mt-1">
                         <a th:href="@{/producto/buscar-categoria/{id}(id=${producto.categoria.id})}"><span th:text="${producto.categoria.nombre}"></span></a>
                     </div>
                 </div>
                 <div class="flex items-center mt-6">
-                    <button class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Comprar ahora</button>
-                    <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
+                    <form th:action="@{/carrito/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${producto.id}">
+                        <input type="number" name="quantity" placeholder="Ingresa la cantidad a comprar.">
+                        <button type="submit" class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Agregar carrito</button>
+                    </form>
+                        <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
                         <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </button>
                 </div>
